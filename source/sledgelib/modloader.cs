@@ -345,20 +345,35 @@ internal class CModLoader
     {
         // ModsPath can't be 1, because Init already checks for it
         #pragma warning disable CS8604
-        string[] ModFiles = Directory.GetFiles(ModsPath, "*.dll", SearchOption.AllDirectories);
+        string[] ModDirectories = Directory.GetDirectories(ModsPath, "sledge*", SearchOption.TopDirectoryOnly);
         #pragma warning restore CS8604
 
-        foreach (string sModFilePath in ModFiles)
+        foreach (string sModFileFolder in ModDirectories)
         {
-            string sModName = Path.GetFileNameWithoutExtension(sModFilePath);
-            if (sModName == "sledgelib")
-                continue;
+            // This will get the name of the folder directory, the mod .dll must match the folder name (e.g sledge_MOD) 
+            string sModName = Path.GetFileName(sModFileFolder); 
+            string sModDepsPath = sModFileFolder + "\\dependencies";
 
-            string? sModPath = Path.GetDirectoryName(sModFilePath);
-            if (sModPath == null)
-                continue;
+            if (Directory.Exists(sModDepsPath))
+            {
+                Log.General("[{0}] - Dependencies folder found", sModName);
+                string[] sModDependencies = Directory.GetFiles(sModDepsPath, "*.dll", SearchOption.TopDirectoryOnly);
 
-            RegisterMod(sModPath, sModName);
+                foreach(string sModDepPath in sModDependencies)
+                {
+                    try
+                    {
+                        Assembly.LoadFrom(sModDepPath);
+                        Log.General("[{0}] - Dependency {1} loaded", sModName, Path.GetFileName(sModDepPath));
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Error("Error ocurred while trying to load dependency {0}: {1}", sModDepPath, ex.Message);
+                    }
+                }
+            }
+
+            RegisterMod(sModFileFolder, sModName);
         }
 
         InitMods();
