@@ -345,9 +345,21 @@ internal class CModLoader
     {
         // ModsPath can't be 1, because Init already checks for it
         #pragma warning disable CS8604
+        string[] ModFiles = Directory.GetFiles(ModsPath, "*.dll", SearchOption.TopDirectoryOnly);
         string[] ModDirectories = Directory.GetDirectories(ModsPath, "*", SearchOption.TopDirectoryOnly);
         #pragma warning restore CS8604
 
+        // Register all single .dll mods inside the mods/ directory
+        foreach (string sModFilePath in ModFiles)
+        {
+            string sModName = Path.GetFileNameWithoutExtension(sModFilePath);
+            if (sModName == "sledgelib")
+                continue;
+
+            RegisterMod(sModFilePath, sModName);
+        }
+
+        // Register all mods that are in folders in the mods/ directory 
         foreach (string sModFileFolder in ModDirectories)
         {
             // This will get the name of the folder directory, the mod .dll must match the folder name 
