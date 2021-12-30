@@ -345,12 +345,12 @@ internal class CModLoader
     {
         // ModsPath can't be 1, because Init already checks for it
         #pragma warning disable CS8604
-        string[] ModDirectories = Directory.GetDirectories(ModsPath, "sledge*", SearchOption.TopDirectoryOnly);
+        string[] ModDirectories = Directory.GetDirectories(ModsPath, "*", SearchOption.TopDirectoryOnly);
         #pragma warning restore CS8604
 
         foreach (string sModFileFolder in ModDirectories)
         {
-            // This will get the name of the folder directory, the mod .dll must match the folder name (e.g sledge_MOD) 
+            // This will get the name of the folder directory, the mod .dll must match the folder name 
             string sModName = Path.GetFileName(sModFileFolder); 
             string sModDepsPath = sModFileFolder + "\\dependencies";
 
