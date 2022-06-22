@@ -68,6 +68,10 @@ sledgelib_func void _DebugPrint(char* cMessage) {
 	delete ssMessage;
 }
 
+sledgelib_func void _Shutdown() {
+	Teardown::Shutdown();
+}
+
 sledgelib_func bool _IsPlaying() { return (g_Game->m_State == EGameState::Playing) && (!g_Game->m_Pause); }
 
 sledgelib_func void _SetState(EGameState iState) { g_Game->m_NextState = iState; }

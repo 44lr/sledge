@@ -12,6 +12,7 @@ namespace SledgeLib
         [DllImport("sledge_core.dll")] private static extern void _GetLevelId(StringBuilder ReturnString, uint ReturnLength);
         [DllImport("sledge_core.dll")] private static extern void _LoadLevel(string LevelPath, string LevelLayers, string LevelId, string LevelModId);
         [DllImport("sledge_core.dll")] private static extern void _DebugPrint(string sMessage);
+        [DllImport("sledge_core.dll")] private static extern void _Shutdown();
         [DllImport("sledge_core.dll")] private static extern EGameState _GetState();
         [DllImport("sledge_core.dll")] private static extern void _SetState(EGameState State);
         [DllImport("sledge_core.dll")] private static extern StringBuilder _GetCMDLine();
@@ -75,6 +76,10 @@ namespace SledgeLib
         {
             try { _DebugPrint(String.Format(sFormat, oArgs)); }
             catch (Exception ex) { Log.Error("Error ocurred while formatting string for DebugPrint: {0}", ex); }
+        }
+
+        public static void Shutdown() {
+            _Shutdown();
         }
 
         public static bool Playing

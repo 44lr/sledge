@@ -118,7 +118,8 @@ static const SFunctionInfo aFunctions[] = {
 	/*
 		misc functions
 	*/
-	{ g_Offsets["DebugPrint"], &Teardown::DebugPrint, "DebugPrint" }
+	{ g_Offsets["DebugPrint"], &Teardown::DebugPrint, "DebugPrint" },
+	{ g_Offsets["Shutdown"], &Teardown::Shutdown, "Shutdown" }
 };
 
 void Teardown::GetFunctionAddresses() {

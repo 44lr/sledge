@@ -4,4 +4,5 @@
 
 namespace Teardown {
 	inline void (*DebugPrint) (void* m_Debug, small_string* ssMessage);
+	inline void (*Shutdown)();
 }

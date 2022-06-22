@@ -1,3 +1,6 @@
 proj/*
 .vscode
+.vs
 *.aps
+*.vcxproj**
+*.sln
